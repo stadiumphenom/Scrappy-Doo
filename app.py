@@ -1,55 +1,25 @@
 import streamlit as st
-
-# Try importing BeautifulSoup cleanly (no subprocess hacks)
-try:
-    from bs4 import BeautifulSoup
-    soup_enabled = True
-except ImportError:
-    BeautifulSoup = None
-    soup_enabled = False
-
 from scrapling.engines.static import StealthyFetcher
 from scrapling.engines.toolbelt.custom import Response
 
 
-def extract_structured_data(html: str) -> dict:
-    """Parses HTML and returns structured content."""
-    soup = BeautifulSoup(html, "html.parser")
-
-    return {
-        "title": soup.title.string.strip() if soup.title else "No title",
-        "headings": [h.get_text(strip=True) for h in soup.find_all(["h1", "h2"])],
-        "links": [
-            {"text": a.get_text(strip=True), "href": a.get("href")}
-            for a in soup.find_all("a", href=True)
-        ],
-        "meta": {
-            tag.get("name") or tag.get("property"): tag.get("content")
-            for tag in soup.find_all("meta", attrs={"content": True})
-            if tag.get("name") or tag.get("property")
-        },
-    }
-
-
 def main():
     st.set_page_config(page_title="Scrappy-Doo", layout="centered")
-    st.title("🦴 Scrappy‑Doo Structured Scraper")
+    st.title("🦴 Scrappy‑Doo Basic Scraper")
 
-    if not soup_enabled:
-        st.error("BeautifulSoup4 is not installed. Please add 'beautifulsoup4' to requirements.txt.")
-        return
+    st.markdown("This tool fetches and displays raw HTML content using Scrapling.")
 
     url = st.text_input("Enter a URL to fetch")
     headless = st.checkbox("Run Headless", value=True)
     network_idle = st.checkbox("Wait for Network Idle", value=False)
     load_dom = st.checkbox("Load Full DOM", value=True)
 
-    if st.button("Fetch & Parse"):
+    if st.button("Fetch Page"):
         if not url:
             st.warning("Please enter a URL.")
             return
 
-        with st.spinner("Fetching and parsing..."):
+        with st.spinner("Fetching..."):
             try:
                 response: Response = StealthyFetcher.fetch(
                     url=url,
@@ -59,26 +29,13 @@ def main():
                 )
 
                 html = response.text
-                structured = extract_structured_data(html)
 
-                st.success("✅ Success! Here’s the structured data:")
+                st.success("✅ Page fetched successfully!")
 
-                st.subheader("📝 Title")
-                st.text(structured["title"])
+                st.subheader("🧾 Raw HTML (first 5,000 chars)")
+                st.code(html[:5000], language="html")
 
-                st.subheader("🔗 Links")
-                for link in structured["links"][:10]:  # limit to 10
-                    st.markdown(f"- [{link['text'] or '(no text)'}]({link['href']})")
-
-                st.subheader("📣 Headings")
-                for h in structured["headings"]:
-                    st.write("•", h)
-
-                st.subheader("🧠 Meta Tags")
-                st.json(structured["meta"])
-
-                # Optional: download raw HTML
-                st.download_button("Download HTML", html, file_name="scraped_page.html")
+                st.download_button("Download Full HTML", html, file_name="scraped_page.html")
 
             except Exception as e:
                 st.error(f"❌ Error: {e}")
