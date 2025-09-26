@@ -1,5 +1,5 @@
 import streamlit as st
-from bs4 import BeautifulSoup
+from beautifulsoup4 import BeautifulSoup
 from scrapling.engines.static import StealthyFetcher
 from scrapling.engines.toolbelt.custom import Response
 
