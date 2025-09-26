@@ -1,13 +1,12 @@
 import streamlit as st
-import subprocess
-import sys
 
-# Safe import of BeautifulSoup
+# Try importing BeautifulSoup cleanly (no subprocess hacks)
 try:
     from bs4 import BeautifulSoup
-except ModuleNotFoundError:
-    subprocess.check_call([sys.executable, "-m", "pip", "install", "beautifulsoup4"])
-    from bs4 import BeautifulSoup
+    soup_enabled = True
+except ImportError:
+    BeautifulSoup = None
+    soup_enabled = False
 
 from scrapling.engines.static import StealthyFetcher
 from scrapling.engines.toolbelt.custom import Response
@@ -35,6 +34,10 @@ def extract_structured_data(html: str) -> dict:
 def main():
     st.set_page_config(page_title="Scrappy-Doo", layout="centered")
     st.title("🦴 Scrappy‑Doo Structured Scraper")
+
+    if not soup_enabled:
+        st.error("BeautifulSoup4 is not installed. Please add 'beautifulsoup4' to requirements.txt.")
+        return
 
     url = st.text_input("Enter a URL to fetch")
     headless = st.checkbox("Run Headless", value=True)
