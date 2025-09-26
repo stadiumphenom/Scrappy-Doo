@@ -1,5 +1,6 @@
-streamlit
+streamlit>=1.27
 mkdocs-material[imaging]
 mkdocstrings
 mkdocstrings-python
+beautifulsoup4
 black
