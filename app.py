@@ -1,5 +1,14 @@
 import streamlit as st
-from bs4 import BeautifulSoup
+import subprocess
+import sys
+
+# Safe import of BeautifulSoup
+try:
+    from bs4 import BeautifulSoup
+except ModuleNotFoundError:
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "beautifulsoup4"])
+    from bs4 import BeautifulSoup
+
 from scrapling.engines.static import StealthyFetcher
 from scrapling.engines.toolbelt.custom import Response
 
