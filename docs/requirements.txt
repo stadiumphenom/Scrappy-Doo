@@ -1,7 +1,6 @@
-# Minimal locked requirements to ensure successful install
-
 streamlit==1.27.2
 beautifulsoup4==4.12.2
+bs4==0.0.2  # shim package that pulls in beautifulsoup4
 mkdocs-material==9.5.10
 mkdocstrings==0.24.0
 mkdocstrings-python==1.6.0
