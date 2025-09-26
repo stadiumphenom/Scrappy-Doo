@@ -2,13 +2,12 @@
 name = "scrappy-doo"
 version = "0.1.0"
 description = "Modular scraping system with Streamlit UI"
-authors = ["Your Name <your@email.com>"]
+authors = ["Your Name <you@example.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
 streamlit = "^1.27.0"
-mkdocs-material = "^9.5.0"
-mkdocs-material-imaging = { version = "*", optional = true }
+mkdocs-material = { version = "^9.5.0", extras = ["imaging"] }
 mkdocstrings = "^0.24.0"
 mkdocstrings-python = "^1.6.0"
 black = "^23.9.1"
