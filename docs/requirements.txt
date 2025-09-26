@@ -1,6 +1,6 @@
+streamlit
 mkdocs-material
+mkdocs-material[imaging]
 mkdocstrings
 mkdocstrings-python
-mkdocs-material[imaging]
 black
-streamlit
