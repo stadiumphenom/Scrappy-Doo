@@ -1,7 +1,8 @@
-# Streamlit Cloud rebuild trigger
-streamlit>=1.27
-beautifulsoup4
-mkdocs-material[imaging]
-mkdocstrings
-mkdocstrings-python
-black
+# Minimal locked requirements to ensure successful install
+
+streamlit==1.27.2
+beautifulsoup4==4.12.2
+mkdocs-material==9.5.10
+mkdocstrings==0.24.0
+mkdocstrings-python==1.6.0
+black==23.9.1
