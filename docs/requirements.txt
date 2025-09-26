@@ -1,3 +1,5 @@
+# Streamlit Cloud rebuild trigger
+
 streamlit>=1.27
 beautifulsoup4
 mkdocs-material[imaging]
